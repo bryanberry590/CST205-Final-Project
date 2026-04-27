@@ -17,10 +17,53 @@ class MainPage(QWidget):
         row2 = QHBoxLayout()
 
         # Create button (widget type)
-        my_btn1 = QPushButton('button 1')
-        my_btn2 = QPushButton('button 2')
-        my_btn3 = QPushButton('button 3')
+        my_btn1 = QPushButton('')
+        my_btn2 = QPushButton('')
+        my_btn3 = QPushButton('')
         my_btn4 = QPushButton('button 4')
+
+
+        # Style Sheets for the backgorund images
+        my_btn1.set_style_sheet("""
+            QPushButton {
+                border-image: url(newsImage.jpg) 0 0 0 0 stretch stretch;
+                border: 1px solid black;
+                color: white;
+                font-size: 32px;
+                min-width: 600px;
+                min-height: 400px;
+            }
+        """)
+        my_btn2.set_style_sheet("""
+            QPushButton {
+                border-image: url(sportsImage.jpg) 0 0 0 0 stretch stretch;
+                border: 1px solid black;
+                color: white;
+                font-size: 32px;
+                min-width: 600px;
+                min-height: 400px;
+            }
+        """)
+        my_btn3.set_style_sheet("""
+            QPushButton {
+                border-image: url(cardImage.jpg) 0 0 0 0 stretch stretch;
+                border: 1px solid black;
+                color: black;
+                font-size: 32px;
+                min-width: 600px;
+                min-height: 400px;
+            }
+        """)
+        my_btn4.set_style_sheet("""
+            QPushButton {
+                border-image: url(cardImage.jpg) 0 0 0 0 stretch stretch;
+                border: 1px solid black;
+                color: black;
+                font-size: 32px;
+                min-width: 600px;
+                min-height: 400px;
+            }
+        """)
 
 
 
@@ -43,7 +86,7 @@ class MainPage(QWidget):
 
         self.set_layout(vbox)
         
-        self.resize(400, 400)
+        self.resize(1300, 900)
         self.show()
 
     # Change this to be connected to a scene change
