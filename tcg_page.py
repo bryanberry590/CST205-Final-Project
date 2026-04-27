@@ -14,7 +14,19 @@ class TCGPage(QWidget):
         super().__init__()
         
         #main layout
+        content_box = QVBoxLayout()
         mbox = QHBoxLayout()
+        
+        header_box = QHBoxLayout()
+        header_box.add_widget(QPushButton("Back"), alignment=Qt.AlignLeft, stretch=1)
+        header_box.add_widget(QLabel("TCG Collection Tracker"), alignment=Qt.AlignLeft, stretch=1)
+        
+        search_box = QHBoxLayout()
+        search_box.add_widget(QLineEdit("Search"), alignment=Qt.AlignRight, stretch=2)
+        search_box.add_widget(QPushButton("Search"), alignment=Qt.AlignRight, stretch=1)
+        header_box.add_layout(search_box, stretch=1)
+        content_box.add_layout(header_box, stretch=1)
+        
         
         card_game_box = QVBoxLayout()
         
@@ -41,8 +53,9 @@ class TCGPage(QWidget):
         mbox.add_layout(card_game_box, stretch=3)
         mbox.add_layout(card_list_box, stretch=1)
         
+        content_box.add_layout(mbox, stretch=20)
         
-        self.set_layout(mbox)
+        self.set_layout(content_box)
         self.resize(900, 600)
         self.show()
     
