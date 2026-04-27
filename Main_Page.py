@@ -16,11 +16,22 @@ class MainPage(QWidget):
         row1 = QHBoxLayout()
         row2 = QHBoxLayout()
 
+        title_lbl = QLabel("Everything Dashboard - Websites Scraped Here!")
+        title_lbl.alignment = Qt.AlignCenter
+        title_lbl.set_style_sheet("""
+            QLabel {
+                font-size: 36px;
+                font-weight: bold;
+                color: White;
+                margin-bottom: 20px;
+            }
+        """)
+
         # Create button (widget type)
         my_btn1 = QPushButton('')
         my_btn2 = QPushButton('')
         my_btn3 = QPushButton('')
-        my_btn4 = QPushButton('button 4')
+        my_btn4 = QPushButton('')
 
 
         # Style Sheets for the backgorund images
@@ -56,7 +67,7 @@ class MainPage(QWidget):
         """)
         my_btn4.set_style_sheet("""
             QPushButton {
-                border-image: url(cardImage.jpg) 0 0 0 0 stretch stretch;
+                border-image: url(todoImage.jpg) 0 0 0 0 stretch stretch;
                 border: 1px solid black;
                 color: black;
                 font-size: 32px;
@@ -75,6 +86,7 @@ class MainPage(QWidget):
         #vbox.add_widget(self.my_lbl)
 
         # Add button (widget) to layout type
+        vbox.add_widget(title_lbl)
         row1.add_widget(my_btn1)
         row1.add_widget(my_btn2)
 
