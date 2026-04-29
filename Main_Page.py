@@ -6,6 +6,11 @@ from PySide6.QtCore import Slot
 from PySide6.QtCore import Qt
 from __feature__ import snake_case, true_property
 
+'''
+Add tooltip / popup info for buttons
+Push animation when buttons are clicked
+'''
+
 class MainPage(QWidget):
     def __init__(self):
         super().__init__()
