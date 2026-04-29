@@ -2,14 +2,17 @@ from pathlib import Path
 import sys
 from PySide6.QtWidgets import (QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit, QComboBox, QDialog, QTextBrowser)
 from PySide6.QtGui import QPixmap
-from PySide6.QtCore import Slot
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Slot, Qt, Signal
 from __feature__ import snake_case, true_property
 
-my_app = QApplication([])
+
+# my_app = QApplication([])
 
 
 class TCGPage(QWidget):
+    go_back = Signal()
+    go_to_item_view = Signal()
+
     def __init__(self):
         super().__init__()
         
@@ -18,7 +21,11 @@ class TCGPage(QWidget):
         mbox = QHBoxLayout()
         
         header_box = QHBoxLayout()
-        header_box.add_widget(QPushButton("Back"), alignment=Qt.AlignLeft, stretch=1)
+        # header_box.add_widget(QPushButton("Back"), alignment=Qt.AlignLeft, stretch=1)
+        #Connected back button - Bryan
+        back_btn = QPushButton("Back")
+        back_btn.clicked.connect(self.go_back)
+        header_box.add_widget(back_btn, alignment=Qt.AlignLeft, stretch=1)
         header_box.add_widget(QLabel("TCG Collection Tracker"), alignment=Qt.AlignLeft, stretch=1)
         
         search_box = QHBoxLayout()
@@ -35,6 +42,11 @@ class TCGPage(QWidget):
         
         card_list_box = QVBoxLayout()
         card_list_box.add_widget(QLabel("Card List"), alignment=Qt.AlignTop | Qt.AlignCenter)
+
+        # Added view card button that utilizes item view - Bryan
+        view_card_btn = QPushButton("View Card")
+        view_card_btn.clicked.connect(self.go_to_item_view)
+        card_list_box.add_widget(view_card_btn, alignment=Qt.AlignTop | Qt.AlignCenter)
         
         game_list_box = QVBoxLayout()
         game_list_box.add_widget(QLabel("Game List"), alignment=Qt.AlignTop | Qt.AlignCenter, stretch=1)
@@ -57,9 +69,9 @@ class TCGPage(QWidget):
         
         self.set_layout(content_box)
         self.resize(900, 600)
-        self.show()
+        # self.show()
     
 
 
-my_win = TCGPage()
-sys.exit(my_app.exec())
+# my_win = TCGPage()
+# sys.exit(my_app.exec())
