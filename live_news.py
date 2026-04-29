@@ -3,11 +3,13 @@ from PySide6.QtWidgets import (
     QApplication, QWidget, QLabel, QPushButton, QLineEdit,
     QComboBox, QVBoxLayout, QHBoxLayout, QGroupBox
 )
-from PySide6.QtCore import Qt, QMargins
+from PySide6.QtCore import Qt, QMargins, Signal
 from __feature__ import snake_case, true_property
 
 
 class LiveNewsWindow(QWidget):
+    go_back = Signal()
+
     def __init__(self):
         super().__init__()
 
@@ -89,15 +91,20 @@ class LiveNewsWindow(QWidget):
         main_layout.contents_margins = QMargins(10, 10, 10, 10)
         main_layout.alignment = Qt.AlignTop
 
+        # Added back button - Bryan
+        back_btn = QPushButton("Back")
+        back_btn.clicked.connect(self.go_back)
+        main_layout.add_widget(back_btn, alignment=Qt.AlignLeft)
+
         main_layout.add_widget(title)
         main_layout.add_layout(search_layout)
         main_layout.add_layout(bottom_layout)
 
         self.set_layout(main_layout)
         self.resize(900, 500)
-        self.show()
+        # self.show()
 
 
-app = QApplication([])
-win = LiveNewsWindow()
-sys.exit(app.exec())
+# app = QApplication([])
+# win = LiveNewsWindow()
+# sys.exit(app.exec())

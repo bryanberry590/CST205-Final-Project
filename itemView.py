@@ -1,8 +1,10 @@
 from PySide6.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout, QPushButton
-from PySide6.QtCore import Qt, Slot
+from PySide6.QtCore import Qt, Slot, Signal
 from __feature__ import snake_case, true_property
 
 class ItemViewPage(QWidget):
+    go_back = Signal()
+
     def __init__(self, item_name="Item Name", item_description="Item description goes here."):
         super().__init__()
 
@@ -12,7 +14,7 @@ class ItemViewPage(QWidget):
         # --- Header ---
         header_box = QHBoxLayout()
         back_btn = QPushButton("Back")
-        back_btn.clicked.connect(self.go_back)
+        back_btn.clicked.connect(self.on_back_clicked)
         header_box.add_widget(back_btn, alignment=Qt.AlignLeft, stretch=1)
         header_box.add_widget(QLabel("Item View"), alignment=Qt.AlignCenter, stretch=3)
         header_box.add_widget(QLabel(""), stretch=1)  # Spacer to balance the back button
@@ -33,8 +35,8 @@ class ItemViewPage(QWidget):
 
         self.set_layout(content_box)
         self.resize(900, 600)
-        self.show()
+        # self.show()
     
     @Slot()
-    def go_back(self):
-        self.close()
+    def on_back_clicked(self):
+        self.go_back.emit()

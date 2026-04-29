@@ -2,15 +2,22 @@ from pathlib import Path
 import sys
 from PySide6.QtWidgets import (QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit, QComboBox, QDialog, QTextBrowser)
 from PySide6.QtGui import QPixmap
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, Signal
 from __feature__ import snake_case, true_property
 
 
 class SportsDashboard(QWidget):
+    go_back = Signal()
+
     def __init__(self):
         super().__init__()
 
         vbox = QVBoxLayout()
+
+        # Added back button - Bryan
+        back_btn = QPushButton("Back")
+        back_btn.clicked.connect(self.go_back)
+        vbox.add_widget(back_btn, alignment=Qt.AlignLeft)
 
         page_title = QLabel('Live Sports News')
         title_font = page_title.font
@@ -119,7 +126,7 @@ class SportsDashboard(QWidget):
 
         self.set_layout(vbox)
         self.resize(800, 600)
-        self.show()
+        # self.show()
 
 
 if __name__ == '__main__':
