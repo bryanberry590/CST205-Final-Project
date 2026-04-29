@@ -2,11 +2,14 @@ from pathlib import Path
 import sys
 from PySide6.QtWidgets import (QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit, QComboBox, QDialog, QTextBrowser)
 from PySide6.QtGui import QPixmap
-from PySide6.QtCore import Slot
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Slot, Qt, Signal
 from __feature__ import snake_case, true_property
 
 class MainPage(QWidget):
+    go_to_news = Signal()
+    go_to_sports = Signal()
+    go_to_tcg = Signal()
+
     def __init__(self):
         super().__init__()
 
@@ -16,11 +19,22 @@ class MainPage(QWidget):
         row1 = QHBoxLayout()
         row2 = QHBoxLayout()
 
+        title_lbl = QLabel("Everything Dashboard - Websites Scraped Here!")
+        title_lbl.alignment = Qt.AlignCenter
+        title_lbl.set_style_sheet("""
+            QLabel {
+                font-size: 36px;
+                font-weight: bold;
+                color: White;
+                margin-bottom: 20px;
+            }
+        """)
+
         # Create button (widget type)
         my_btn1 = QPushButton('')
         my_btn2 = QPushButton('')
         my_btn3 = QPushButton('')
-        my_btn4 = QPushButton('button 4')
+        my_btn4 = QPushButton('')
 
 
         # Style Sheets for the backgorund images
@@ -56,7 +70,7 @@ class MainPage(QWidget):
         """)
         my_btn4.set_style_sheet("""
             QPushButton {
-                border-image: url(cardImage.jpg) 0 0 0 0 stretch stretch;
+                border-image: url(todoImage.jpg) 0 0 0 0 stretch stretch;
                 border: 1px solid black;
                 color: black;
                 font-size: 32px;
@@ -74,7 +88,14 @@ class MainPage(QWidget):
 
         #vbox.add_widget(self.my_lbl)
 
+
+        # Hook up buttons to signals
+        my_btn1.clicked.connect(self.go_to_news)
+        my_btn2.clicked.connect(self.go_to_sports)
+        my_btn3.clicked.connect(self.go_to_tcg)
+
         # Add button (widget) to layout type
+        vbox.add_widget(title_lbl)
         row1.add_widget(my_btn1)
         row1.add_widget(my_btn2)
 
@@ -87,7 +108,9 @@ class MainPage(QWidget):
         self.set_layout(vbox)
         
         self.resize(1300, 900)
-        self.show()
+
+        # TODO: maybe remove all code below
+         # self.show()
 
     # Change this to be connected to a scene change
     # @Slot()
@@ -95,7 +118,7 @@ class MainPage(QWidget):
     #     self.my_lbl.text = 'button has been clicked!'
 
 
-app = QApplication([])
-my_class = MainPage()
-my_class.show()
-sys.exit(app.exec())
+# app = QApplication([])
+# my_class = MainPage()
+# my_class.show()
+# sys.exit(app.exec())
