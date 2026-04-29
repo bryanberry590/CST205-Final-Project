@@ -46,7 +46,7 @@ class MainPage(QWidget):
         my_btn1.set_style_sheet("""
             QPushButton {
                 border-image: url(newsImage.jpg) 0 0 0 0 stretch stretch;
-                border: 1px solid black;
+                border: 6px solid black;
                 color: white;
                 font-size: 32px;
                 min-width: 600px;
@@ -56,7 +56,7 @@ class MainPage(QWidget):
         my_btn2.set_style_sheet("""
             QPushButton {
                 border-image: url(sportsImage.jpg) 0 0 0 0 stretch stretch;
-                border: 1px solid black;
+                border: 6px solid black;
                 color: white;
                 font-size: 32px;
                 min-width: 600px;
@@ -66,7 +66,7 @@ class MainPage(QWidget):
         my_btn3.set_style_sheet("""
             QPushButton {
                 border-image: url(cardImage.jpg) 0 0 0 0 stretch stretch;
-                border: 1px solid black;
+                border: 6px solid black;
                 color: black;
                 font-size: 32px;
                 min-width: 600px;
@@ -76,22 +76,13 @@ class MainPage(QWidget):
         my_btn4.set_style_sheet("""
             QPushButton {
                 border-image: url(todoImage.jpg) 0 0 0 0 stretch stretch;
-                border: 1px solid black;
+                border: 6px solid black;
                 color: black;
                 font-size: 32px;
                 min-width: 600px;
                 min-height: 400px;
             }
         """)
-
-
-
-        #self.my_lbl = QLabel('button not yet clicked')
-
-        # Connect the button (widget) to the desired function (@Slot())
-        #my_btn1.clicked.connect(self.on_click)
-
-        #vbox.add_widget(self.my_lbl)
 
 
         # Hook up buttons to signals
@@ -113,17 +104,3 @@ class MainPage(QWidget):
         self.set_layout(vbox)
         
         self.resize(1300, 900)
-
-        # TODO: maybe remove all code below
-         # self.show()
-
-    # Change this to be connected to a scene change
-    # @Slot()
-    # def on_click(self):
-    #     self.my_lbl.text = 'button has been clicked!'
-
-
-# app = QApplication([])
-# my_class = MainPage()
-# my_class.show()
-# sys.exit(app.exec())
