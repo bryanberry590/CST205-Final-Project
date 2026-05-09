@@ -24,7 +24,7 @@ class MainPage(QWidget):
         row1 = QHBoxLayout()
         row2 = QHBoxLayout()
 
-        title_lbl = QLabel("Everything Dashboard - Websites Scraped Here!")
+        title_lbl = QLabel("Anything Dashboard - Websites Scraped Here!")
         title_lbl.alignment = Qt.AlignCenter
         title_lbl.set_style_sheet("""
             QLabel {
@@ -41,6 +41,11 @@ class MainPage(QWidget):
         my_btn3 = QPushButton('')
         my_btn4 = QPushButton('')
 
+        # Tool tips
+        my_btn1.tool_tip = "View live news articles and headlines."
+        my_btn2.tool_tip = "View live sports news and sports updates."
+        my_btn3.tool_tip = "Open the TCG collection tracker."
+        my_btn4.tool_tip = "Open the Image of the Day manipulator."
 
         # Style Sheets for the backgorund images
         my_btn1.set_style_sheet("""
@@ -49,8 +54,16 @@ class MainPage(QWidget):
                 border: 6px solid black;
                 color: white;
                 font-size: 32px;
-                min-width: 600px;
-                min-height: 400px;
+                min-width: 500px;
+                min-height: 350px;
+            }
+            /* Changes color when hovered */
+            QPushButton:hover {
+                background-color: #2980b9;
+            }
+            /* Darkens when clicked */
+            QPushButton:pressed {
+                background-color: #1c598a;
             }
         """)
         my_btn2.set_style_sheet("""
@@ -59,8 +72,14 @@ class MainPage(QWidget):
                 border: 6px solid black;
                 color: white;
                 font-size: 32px;
-                min-width: 600px;
-                min-height: 400px;
+                min-width: 500px;
+                min-height: 350px;
+            }
+            QPushButton:hover {
+                background-color: #2980b9;
+            }
+            QPushButton:pressed {
+                background-color: #1c598a;
             }
         """)
         my_btn3.set_style_sheet("""
@@ -69,18 +88,32 @@ class MainPage(QWidget):
                 border: 6px solid black;
                 color: black;
                 font-size: 32px;
-                min-width: 600px;
-                min-height: 400px;
+                min-width: 500px;
+                min-height: 350px;
+            }
+            QPushButton:hover {
+                background-color: #2980b9;
+            }
+            QPushButton:pressed {
+                background-color: #1c598a;
             }
         """)
+
+        #TODO: Change this image to something related to the Image of the Day
         my_btn4.set_style_sheet("""
             QPushButton {
                 border-image: url(todoImage.jpg) 0 0 0 0 stretch stretch;
                 border: 6px solid black;
                 color: black;
                 font-size: 32px;
-                min-width: 600px;
-                min-height: 400px;
+                min-width: 500px;
+                min-height: 350px;
+            }
+            QPushButton:hover {
+                background-color: #2980b9;
+            }
+            QPushButton:pressed {
+                background-color: #1c598a;
             }
         """)
 

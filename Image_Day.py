@@ -1,5 +1,3 @@
-# image_filter_app.py
-
 import sys
 import random
 import math
@@ -7,19 +5,14 @@ from pathlib import Path
 
 from PIL import Image
 
-from PySide6.QtWidgets import (
-    QApplication,
-    QWidget,
-    QLabel,
-    QPushButton,
-    QVBoxLayout,
-    QHBoxLayout,
-)
+from PySide6.QtWidgets import (QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout)
 from PySide6.QtGui import QPixmap
 from PySide6.QtCore import Qt, Slot
 
 from __feature__ import snake_case, true_property
 
+# Reference: CST 205 --- Day of Demos -- Flask Stacked Decorators
+# https://gist.github.com/avner-csumb/dae90d33a7ffee36b887c26b0e999346
 
 '''
 The image manipulation is performed on top of the previous manipulation
@@ -38,7 +31,7 @@ class ImageFilterApp(QWidget):
         self.original_path = Path("test.jpg")
         self.temp_path = Path("temp.jpg")
 
-        # Make sure temp.jpg starts as a copy of original.jpg
+        # temp.jpg is a copy of the original jpg
         self.reset_image()
 
         # Main layout -------------
@@ -90,7 +83,7 @@ class ImageFilterApp(QWidget):
 
         main_layout.add_layout(image_layout)
 
-        # ---------- Button layout ----------
+        # Button layout -------------
         button_layout = QHBoxLayout()
 
         grayscale_btn = QPushButton("Grayscale")
