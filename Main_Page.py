@@ -14,6 +14,7 @@ class MainPage(QWidget):
     go_to_news = Signal()
     go_to_sports = Signal()
     go_to_tcg = Signal()
+    go_to_image = Signal()
 
     def __init__(self):
         super().__init__()
@@ -47,73 +48,79 @@ class MainPage(QWidget):
         my_btn3.tool_tip = "Open the TCG collection tracker."
         my_btn4.tool_tip = "Open the Image of the Day manipulator."
 
-        # Style Sheets for the backgorund images
+        # Style Sheets for the background images
+      
         my_btn1.set_style_sheet("""
             QPushButton {
                 border-image: url(newsImage.jpg) 0 0 0 0 stretch stretch;
-                border: 6px solid black;
+                border: 4px solid #333;
+                border-radius: 16px;
                 color: white;
-                font-size: 32px;
-                min-width: 500px;
-                min-height: 350px;
+                font-size: 28px;
+                min-width: 400px;
+                min-height: 270px;
             }
-            /* Changes color when hovered */
             QPushButton:hover {
-                background-color: #2980b9;
+                background-color: rgba(41, 128, 185, 0.6);
+                border-color: #2980b9;
             }
-            /* Darkens when clicked */
             QPushButton:pressed {
-                background-color: #1c598a;
+                background-color: rgba(28, 89, 138, 0.7);
             }
         """)
         my_btn2.set_style_sheet("""
             QPushButton {
                 border-image: url(sportsImage.jpg) 0 0 0 0 stretch stretch;
-                border: 6px solid black;
+                border: 4px solid #333;
+                border-radius: 16px;
                 color: white;
-                font-size: 32px;
-                min-width: 500px;
-                min-height: 350px;
+                font-size: 28px;
+                min-width: 400px;
+                min-height: 270px;
             }
             QPushButton:hover {
-                background-color: #2980b9;
+                background-color: rgba(41, 128, 185, 0.6);
+                border-color: #2980b9;
             }
             QPushButton:pressed {
-                background-color: #1c598a;
+                background-color: rgba(28, 89, 138, 0.7);
             }
         """)
         my_btn3.set_style_sheet("""
             QPushButton {
                 border-image: url(cardImage.jpg) 0 0 0 0 stretch stretch;
-                border: 6px solid black;
-                color: black;
-                font-size: 32px;
-                min-width: 500px;
-                min-height: 350px;
+                border: 4px solid #333;
+                border-radius: 16px;
+                color: white;
+                font-size: 28px;
+                min-width: 400px;
+                min-height: 270px;
             }
             QPushButton:hover {
-                background-color: #2980b9;
+                background-color: rgba(41, 128, 185, 0.6);
+                border-color: #2980b9;
             }
             QPushButton:pressed {
-                background-color: #1c598a;
+                background-color: rgba(28, 89, 138, 0.7);
             }
         """)
-
-        #TODO: Change this image to something related to the Image of the Day
         my_btn4.set_style_sheet("""
             QPushButton {
-                border-image: url(todoImage.jpg) 0 0 0 0 stretch stretch;
-                border: 6px solid black;
-                color: black;
-                font-size: 32px;
-                min-width: 500px;
-                min-height: 350px;
+                border-image: url(nasa_logo.png) 0 0 0 0 stretch stretch;
+                border: 4px solid #333;
+                border-radius: 16px;
+                color: white;
+                font-size: 28px;
+                min-width: 400px;
+                min-height: 270px;
+                background-color: rgba(255, 255, 255, 0.7);
             }
             QPushButton:hover {
-                background-color: #2980b9;
+                background-color: rgba(41, 128, 185, 0.6);
+                border-color: #2980b9;
             }
             QPushButton:pressed {
-                background-color: #1c598a;
+                # background-color: rgba(28, 89, 138, 0.7);
             }
         """)
 
@@ -122,6 +129,7 @@ class MainPage(QWidget):
         my_btn1.clicked.connect(self.go_to_news)
         my_btn2.clicked.connect(self.go_to_sports)
         my_btn3.clicked.connect(self.go_to_tcg)
+        my_btn4.clicked.connect(self.go_to_image)
 
         # Add button (widget) to layout type
         vbox.add_widget(title_lbl)
