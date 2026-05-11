@@ -1,13 +1,13 @@
 import sys
 import random
 import math
+import requests
+from bs4 import BeautifulSoup
 from pathlib import Path
-
 from PIL import Image
-
 from PySide6.QtWidgets import (QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout)
 from PySide6.QtGui import QPixmap
-from PySide6.QtCore import Qt, Slot
+from PySide6.QtCore import Qt, Slot, Signal
 
 from __feature__ import snake_case, true_property
 
@@ -21,6 +21,8 @@ Until we hit the restart button
 '''
 
 class ImageFilterApp(QWidget):
+    go_back = Signal()
+
     def __init__(self):
         super().__init__()
 
@@ -50,7 +52,7 @@ class ImageFilterApp(QWidget):
         main_layout.add_widget(title)
 
         # Image display layout -------------
-        image_layout = QHBoxLayout()
+        image_layout = QVBoxLayout()
 
         # Left side: Original image
         original_box = QVBoxLayout()
@@ -101,12 +103,18 @@ class ImageFilterApp(QWidget):
         button_layout.add_widget(random_btn)
         button_layout.add_widget(reset_btn)
 
+        back_btn = QPushButton("Back")
+        back_btn.clicked.connect(self.go_back)
+        button_layout.add_widget(back_btn)
+
         main_layout.add_layout(button_layout)
 
         self.set_layout(main_layout)
         self.resize(1000, 650)
-
+        
+        self.reset_image()
         self.update_images()
+        self.fetch_nasa_image()
 
         # Copies original.jpg into temp.jpg
     def reset_image(self):
@@ -119,18 +127,39 @@ class ImageFilterApp(QWidget):
         filtered_pixmap = QPixmap(str(self.temp_path))
 
         self.original_label.pixmap = original_pixmap.scaled(
-            400,
+            700,
             400,
             Qt.KeepAspectRatio,
             Qt.SmoothTransformation,
         )
 
         self.filtered_label.pixmap = filtered_pixmap.scaled(
-            400,
+            700,
             400,
             Qt.KeepAspectRatio,
             Qt.SmoothTransformation,
         )
+
+    def fetch_nasa_image(self):
+        url = "https://www.nasa.gov/image-of-the-day/"
+        headers = {"User-Agent": "Mozilla/5.0"}
+        response = requests.get(url, headers=headers)
+        soup = BeautifulSoup(response.text, "html.parser")
+
+        # This page displays previous images of the day, but the first img in the first <a> tage is going to be the most recent one
+        first_link = soup.find("a", href=lambda h: h and "/image-article/" in h)
+        img_tag = first_link.find("img") if first_link else None
+
+        if img_tag:
+            img_url = img_tag.get("src") or img_tag.get("srcset", "").split()[0]
+            # Strip query params like ?w=1024
+            img_url = img_url.split("?")[0]
+            img_data = requests.get(img_url, headers=headers).content
+            with open("nasa_today.jpg", "wb") as f:
+                f.write(img_data)
+            self.original_path = Path("nasa_today.jpg")
+            self.reset_image()
+            self.update_images()
 
         # Grayscale Image manipulation
     @Slot()
