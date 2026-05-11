@@ -1,9 +1,13 @@
 from pathlib import Path
 import sys
-from PySide6.QtWidgets import (QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit, QComboBox, QDialog, QTextBrowser)
+from PySide6.QtWidgets import (QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit, QComboBox, QDialog, QTextBrowser, QScrollArea)
 from PySide6.QtGui import QPixmap
 from PySide6.QtCore import Qt, Signal
+from urllib.request import urlopen
 from __feature__ import snake_case, true_property
+from sports_scrape import (bball_article_text, ftball_article_text, bsball_article_text, tenn_article_text, wnba_article_text, 
+ftball_text_title, bball_text_title, bsball_text_title, tenn_text_title, wnba_text_title, 
+bball_image_url, ftball_image_url, bsball_image_url, tenn_image_url, wnba_image_url)
 
 
 class SportsDashboard(QWidget):
@@ -13,11 +17,12 @@ class SportsDashboard(QWidget):
         super().__init__()
 
         vbox = QVBoxLayout()
+        no_scroll_layout = QVBoxLayout()
 
         # Added back button - Bryan
         back_btn = QPushButton("Back")
         back_btn.clicked.connect(self.go_back)
-        vbox.add_widget(back_btn, alignment=Qt.AlignLeft)
+        no_scroll_layout.add_widget(back_btn, alignment=Qt.AlignLeft)
 
         page_title = QLabel('Live Sports News')
         title_font = page_title.font
@@ -25,7 +30,7 @@ class SportsDashboard(QWidget):
         title_font.set_bold(True)
         page_title.font = title_font
         page_title.alignment = Qt.AlignHCenter
-        vbox.add_widget(page_title)
+        no_scroll_layout.add_widget(page_title)
 
         # search bar template; doesn't wire to anything yet
         search_bar = QHBoxLayout()
@@ -34,7 +39,7 @@ class SportsDashboard(QWidget):
         search_btn = QPushButton('Search')
         search_bar.add_widget(self.search_edit)
         search_bar.add_widget(search_btn)
-        vbox.add_layout(search_bar)
+        no_scroll_layout.add_layout(search_bar)
 
         # defining CSS style sheet for the article cards to apply below
         card_style = """
@@ -49,12 +54,13 @@ class SportsDashboard(QWidget):
             }
         """
 
-        head1 = QLabel('Sample headline: home team wins in overtime')
+        head1 = QLabel(bball_text_title)
         hf1 = head1.font
         hf1.set_point_size(15)
         hf1.set_bold(True)
         head1.font = hf1
         body1 = QLabel('Short excerpt placeholder.')
+        body1.word_wrap = True
         card1 = QWidget()
         card1.object_name = 'article_card'
         card1.style_sheet = card_style
@@ -64,7 +70,7 @@ class SportsDashboard(QWidget):
         card1.set_layout(inner1)
         vbox.add_widget(card1)
 
-        head2 = QLabel('Another story: trade rumors heat up before deadline')
+        head2 = QLabel(ftball_text_title)
         hf2 = head2.font
         hf2.set_point_size(15)
         hf2.set_bold(True)
@@ -79,7 +85,7 @@ class SportsDashboard(QWidget):
         card2.set_layout(inner2)
         vbox.add_widget(card2)
 
-        head3 = QLabel('Injury report: star player listed day-to-day')
+        head3 = QLabel(bsball_text_title)
         hf3 = head3.font
         hf3.set_point_size(15)
         hf3.set_bold(True)
@@ -94,7 +100,7 @@ class SportsDashboard(QWidget):
         card3.set_layout(inner3)
         vbox.add_widget(card3)
 
-        head4 = QLabel('Trade rumors')
+        head4 = QLabel(tenn_text_title)
         hf4 = head4.font
         hf4.set_point_size(15)
         hf4.set_bold(True)
@@ -109,7 +115,7 @@ class SportsDashboard(QWidget):
         card4.set_layout(inner4)
         vbox.add_widget(card4)
 
-        head5 = QLabel('NBA Star retiring')
+        head5 = QLabel(wnba_text_title)
         hf5 = head5.font
         hf5.set_point_size(15)
         hf5.set_bold(True)
@@ -124,8 +130,20 @@ class SportsDashboard(QWidget):
         card5.set_layout(inner5)
         vbox.add_widget(card5)
 
-        self.set_layout(vbox)
-        self.resize(800, 600)
+        # created container and scroll view, so this page is scrollable (using QScrollView)
+        container = QWidget()
+        container.set_layout(vbox)
+        container.minimum_height = 1000
+
+        scroll = QScrollArea()
+        scroll.set_widget(container)
+        scroll.widget_resizable = True
+
+        outer = QVBoxLayout()
+        outer.add_layout(no_scroll_layout)
+        outer.add_widget(scroll)
+        self.set_layout(outer)
+        self.resize(800, 300)
         # self.show()
 
 
