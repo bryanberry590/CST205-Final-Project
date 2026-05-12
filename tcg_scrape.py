@@ -11,7 +11,11 @@ def get_random_card():
     if response.status_code == 200:
         card = response.json()
         
-        card_img_url = card['image_uris']['normal']
+        # card_img_url = card['image_uris']['normal']
+        if 'image_uris' in card:
+            card_img_url = card['image_uris']['normal']
+        else:
+            card_img_url = card['card_faces'][0]['image_uris']['normal']
         img_data = requests.get(card_img_url).content
         with open("highlight_card.jpg", "wb") as f:
             f.write(img_data)

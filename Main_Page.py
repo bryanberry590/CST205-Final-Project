@@ -120,7 +120,7 @@ class MainPage(QWidget):
                 border-color: #2980b9;
             }
             QPushButton:pressed {
-                # background-color: rgba(28, 89, 138, 0.7);
+                background-color: rgba(28, 89, 138, 0.7);
             }
         """)
 
