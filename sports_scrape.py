@@ -3,6 +3,8 @@ from urllib.request import urlopen
 import re # this import is for our helper method that cleans the article bodies 
 """
 Scrapes ESPN for different sports news
+
+Author: Jeslyn See
 """
 
 # Helper method for cleaning up article bodies we are capturing above (removing unnecessary text/spaces that was attached)
