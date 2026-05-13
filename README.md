@@ -1,39 +1,64 @@
-# CST205-Final-Project
-# ANYTHING DASHBOARD
-# 4/13/26
+# CST205 Final Project: Anything Dashboard
 
-REPO LINK: https://github.com/bryanberry590/CST205-Final-Project/pulls
-TRELLO LINK: https://trello.com/b/m5E2HVdr/team-7616-final-project-board
+**Date:** 4/13/26
 
-CREATED BY:
-    Andrew Ryer
-    Tyler Pruitt 
-    Angel Enriquez
-    Jeslyn See
-    Bryan Berry
+## Links
 
+- **Repository:** [CST205-Final-Project](https://github.com/bryanberry590/CST205-Final-Project/pulls)
+- **Trello Board:** [Team 7616 Final Project Board](https://trello.com/b/m5E2HVdr/team-7616-final-project-board)
 
-We developed this project inside of our virtual environments. The packages that this project uses are:
-PySide6
-Pillow
-beautifulsoup4
-requests
+## Team Members
 
-These packages can be installed with the following command:
+- Andrew Ryer
+- Tyler Pruitt
+- Angel Enriquez
+- Jeslyn See
+- Bryan Berry
+
+## Overview
+
+This project was developed inside virtual environments. The required packages are:
+
+- PySide6
+- Pillow
+- beautifulsoup4
+- requests
+
+## Installation
+
+Install all required packages with:
+
+```bash
 pip install PySide6 Pillow beautifulsoup4 requests
+```
 
-To run the app, you just need to run the main.py file with whatever python command your computer uses. For example, inside one of our virtual environments, the project ran with the command 'python main.py'.
+## Running the App
 
-Future changes could be UI design, updating the TCG page, and further optimizations to the image filters to run quicker.
+Run the `main.py` file using your system's Python command. For example, inside one of our virtual environments, the project ran with:
 
-Personal Contributions:
+```bash
+python main.py
+```
 
-    Andrew Ryer - I worked on the implementation of the Main Page and NASA Image of the Day Page. worked on the files Main_Page.py and Image_Day.py. I created the UI template for these pages (Using Pyside6). Also, for Image_Day.py I added the ability to apply gray scale, negative, and a random (RGB) filter to the image of the day (using pillow). Image_Day.py web scrapes from NASA.gov. 
+## Future Improvements
 
-    Tyler Pruitt - I worked on the tcg page and scraping from tcgplayer, since it was dynamically loaded I tried using selenium. Unfortunately, I was unable to get selenium to work, so I pivoted to using the scryfall api. I have it take a random card as a highlighted image, and a list of cards from 3 different sets to display.
+- Refined UI design
+- Updates to the TCG page
+- Further optimizations to image filters for faster performance
 
-    Angel Enriquez - For the Live News page, I scraped from NPR rather than my originally picked website, BBC. I was able to get it working properly after switching sites. I scraped each individual article and stored the headline, summary, category, corresponding image, and article URL. For the UI I had a search bar, order sort, category sort, and selected story. The page captures the thirty newest articles and displays ten of them at a time, you can see the other ones by switching to other categories and searching for the specific headlines or any keywords.
+## Personal Contributions
 
-    Jeslyn See - I worked on the implementation of the Live Sports Dashboard. I worked on the files sports_scrape.py and sports_dashboard.py. I created the UI template for it, then set up the web scraping by scraping the ESPN website for the latest article on these categories: basketball, football, baseball, tennis, and women's basketball. After I captured the information from ESPN, I imported the article title, body text, and image URL in the sports dashboard file. I displayed all the captured information there.
+### Andrew Ryer
+Implemented the Main Page and NASA Image of the Day Page, working on `Main_Page.py` and `Image_Day.py`. Created the UI templates using PySide6. For `Image_Day.py`, added the ability to apply grayscale, negative, and a random (RGB) filter to the image of the day using Pillow. The page web scrapes from NASA.gov.
 
-    Bryan Berry - I worked all over the app. The main focus was ensuring that all pages functioned correctly and could be clicked to with the use of buttons. I also spent a lot of time on each page ensuring they were bug free. I also assisted with the Nasa photo of the day page by writing the web scraper code for that. I ensured that it worked properly and updated whenever Nasa updates the photo of the day. I also stayed open to contributing to any part of the project that my team needed me on.
+### Tyler Pruitt
+Worked on the TCG page and scraping from TCGPlayer. Since the site was dynamically loaded, initially attempted Selenium but was unable to get it working, so pivoted to the Scryfall API. The page displays a random card as a highlighted image and a list of cards from three different sets.
+
+### Angel Enriquez
+For the Live News page, scraped from NPR instead of the originally chosen BBC site. Each article's headline, summary, category, corresponding image, and URL are stored. The UI includes a search bar, order sort, category sort, and selected story view. The page captures the thirty newest articles and displays ten at a time; the others are accessible via category switching or keyword search.
+
+### Jeslyn See
+Implemented the Live Sports Dashboard, working on `sports_scrape.py` and `sports_dashboard.py`. Created the UI template and set up web scraping from ESPN for the latest articles in basketball, football, baseball, tennis, and women's basketball. Captured article titles, body text, and image URLs are imported into the sports dashboard file and displayed.
+
+### Bryan Berry
+Worked across the entire app, focusing on ensuring all pages functioned correctly and were navigable via buttons. Spent significant time debugging each page. Also contributed to the NASA Photo of the Day page by writing the web scraper code, ensuring it updates whenever NASA refreshes the photo. Stayed flexible to support any part of the project the team needed.
