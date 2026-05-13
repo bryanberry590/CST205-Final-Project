@@ -4,7 +4,7 @@
 
 ## Links
 
-- **Repository:** [CST205-Final-Project](https://github.com/bryanberry590/CST205-Final-Project/pulls)
+- **Repository:** [CST205-Final-Project](https://github.com/bryanberry590/CST205-Final-Project)
 - **Trello Board:** [Team 7616 Final Project Board](https://trello.com/b/m5E2HVdr/team-7616-final-project-board)
 
 ## Team Members
