@@ -3,6 +3,7 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 
 from PySide6.QtCore import Qt, Signal
+from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import (
     QApplication, QWidget, QLabel, QPushButton,
     QLineEdit, QComboBox, QVBoxLayout,
@@ -25,6 +26,7 @@ def get_news():
             title = ""
             summary = "No summary found."
             link = url
+            image_url = ""
 
             category_tag = story.find("h3")
             if category_tag:
@@ -41,13 +43,20 @@ def get_news():
             paragraph = story.find("p")
             if paragraph:
                 summary = paragraph.get_text(strip=True)
+                summary = summary.replace("hide caption", "")
+                summary = summary.strip()
+
+            image_tag = story.find("img")
+            if image_tag:
+                image_url = image_tag.get("src")
 
             if title:
                 articles.append({
                     "title": title,
                     "summary": summary,
                     "link": link,
-                    "category": category
+                    "category": category,
+                    "image": image_url
                 })
 
             if len(articles) == 30:
@@ -71,6 +80,13 @@ class LiveNewsWindow(QWidget):
         self.displayed_articles = []
 
         self.setWindowTitle("Live News")
+
+        back_btn = QPushButton("Back")
+        back_btn.clicked.connect(self.go_back)
+
+        top_layout = QHBoxLayout()
+        top_layout.addWidget(back_btn, alignment=Qt.AlignLeft)
+        top_layout.addStretch()
 
         title = QLabel("<h2>Live News</h2>")
         title.setAlignment(Qt.AlignCenter)
@@ -102,40 +118,28 @@ class LiveNewsWindow(QWidget):
         headlines_layout = QVBoxLayout()
         headlines_layout.setAlignment(Qt.AlignTop)
 
-        self.headline1 = QLabel("Placeholder 1")
-        self.headline2 = QLabel("Placeholder 2")
-        self.headline3 = QLabel("Placeholder 3")
-        self.headline4 = QLabel("Placeholder 4")
-        self.headline5 = QLabel("Placeholder 5")
-        self.headline6 = QLabel("Placeholder 6")
-        self.headline7 = QLabel("Placeholder 7")
-        self.headline8 = QLabel("Placeholder 8")
-        self.headline9 = QLabel("Placeholder 9")
-        self.headline10 = QLabel("Placeholder 10")
+        self.headline_labels = []
 
-        self.headline_labels = [
-            self.headline1,
-            self.headline2,
-            self.headline3,
-            self.headline4,
-            self.headline5,
-            self.headline6,
-            self.headline7,
-            self.headline8,
-            self.headline9,
-            self.headline10
-        ]
+        for i in range(10):
+            button = QPushButton("Placeholder " + str(i + 1))
+            button.setMinimumHeight(35)
+            button.setStyleSheet("""
+                QPushButton {
+                    text-align: left;
+                    padding: 5px;
+                }
 
-        for i, label in enumerate(self.headline_labels):
-            label.setWordWrap(True)
-            label.setMinimumHeight(30)
-            label.setStyleSheet("""
-                QLabel:hover {
+                QPushButton:hover {
                     color: lightblue;
                 }
             """)
-            label.mousePressEvent = lambda event, index=i: self.show_story(index)
-            headlines_layout.addWidget(label)
+
+            button.clicked.connect(
+                lambda checked=False, index=i: self.show_story(index)
+            )
+
+            self.headline_labels.append(button)
+            headlines_layout.addWidget(button)
 
         headlines_box.setLayout(headlines_layout)
 
@@ -147,6 +151,11 @@ class LiveNewsWindow(QWidget):
         self.story_title = QLabel("Title: ")
         self.category_label = QLabel("Category: ")
         self.summary_label = QLabel("Summary: ")
+
+        self.image_label = QLabel()
+        self.image_label.setFixedHeight(180)
+        self.image_label.setAlignment(Qt.AlignCenter)
+
         self.summary_line2 = QLabel("")
         self.summary_line3 = QLabel("")
         self.link_label = QLabel("Link: ")
@@ -155,6 +164,7 @@ class LiveNewsWindow(QWidget):
             self.story_title,
             self.category_label,
             self.summary_label,
+            self.image_label,
             self.summary_line2,
             self.summary_line3,
             self.link_label
@@ -175,21 +185,13 @@ class LiveNewsWindow(QWidget):
         main_layout = QVBoxLayout()
         main_layout.setSpacing(5)
         main_layout.setContentsMargins(10, 10, 10, 10)
+        main_layout.addLayout(top_layout)
         main_layout.addWidget(title)
         main_layout.addLayout(search_layout)
         main_layout.addLayout(bottom_layout)
 
-        back_btn = QPushButton("Back")
-        back_btn.clicked.connect(self.go_back)
-
-        top_layout = QHBoxLayout()
-        top_layout.addWidget(back_btn, alignment=Qt.AlignLeft)
-        top_layout.addStretch()
-
-        main_layout.insertLayout(0, top_layout)
-
         self.setLayout(main_layout)
-        self.resize(1100, 600)
+        self.resize(1100, 650)
 
         search_btn.clicked.connect(self.search_news)
         self.category_box.currentTextChanged.connect(self.filter_news)
@@ -231,12 +233,13 @@ class LiveNewsWindow(QWidget):
             self.show_story(0)
 
         else:
-            for label in self.headline_labels:
-                label.setText("No matching headlines found.")
+            for button in self.headline_labels:
+                button.setText("No matching headlines found.")
 
             self.story_title.setText("Title: No story selected")
             self.category_label.setText("Category: ")
             self.summary_label.setText("Summary: No summary available.")
+            self.image_label.clear()
             self.summary_line2.setText("")
             self.summary_line3.setText("")
             self.link_label.setText("Link: https://www.npr.org/sections/news/")
@@ -252,7 +255,11 @@ class LiveNewsWindow(QWidget):
         results = []
 
         for article in self.articles:
-            title_match = search_text == "" or search_text in article["title"].lower()
+            title_match = (
+                search_text == ""
+                or search_text in article["title"].lower()
+            )
+
             category_match = (
                 selected_category == "All"
                 or selected_category == article["category"]
@@ -279,10 +286,37 @@ class LiveNewsWindow(QWidget):
         self.summary_line3.setText("")
         self.link_label.setText("Link: " + article["link"])
 
+        self.image_label.clear()
+        self.image_label.setText("")
+        self.image_label.setFixedSize(360, 180)
+        self.image_label.setAlignment(Qt.AlignCenter)
 
-app = QApplication([])
+        if article["image"]:
+            try:
+                image_data = urlopen(article["image"]).read()
 
-win = LiveNewsWindow()
-win.show()
+                pixmap = QPixmap()
+                pixmap.loadFromData(image_data)
 
-sys.exit(app.exec())
+                pixmap = pixmap.scaled(
+                    self.image_label.width(),
+                    self.image_label.height(),
+                    Qt.KeepAspectRatio,
+                    Qt.SmoothTransformation
+                )
+
+                self.image_label.setPixmap(pixmap)
+
+            except Exception:
+                self.image_label.setText("Image could not be loaded.")
+        else:
+            self.image_label.setText("No image found.")
+
+
+if __name__ == "__main__":
+    app = QApplication([])
+
+    win = LiveNewsWindow()
+    win.show()
+
+    sys.exit(app.exec())
