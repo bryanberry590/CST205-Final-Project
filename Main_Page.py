@@ -27,7 +27,6 @@ class MainPage(QWidget):
 
         title_lbl = QLabel("Anything Dashboard - Websites Scraped Here!")
         title_lbl.alignment = Qt.AlignCenter
-        title_lbl.maximum_height = 50
         title_lbl.set_style_sheet("""
             QLabel {
                 font-size: 36px;
